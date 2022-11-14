@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { bool } from '@techstark/opencv-js';
 import { ITerm } from '../label/label.component';
 
 @Component({
@@ -17,8 +16,8 @@ export class ActionBarComponent implements OnInit {
     dictionary: undefined
   }
 
-  @Output() takeSnaphotE: EventEmitter<bool> = new EventEmitter<bool>()
-  @Output() enableCameraE: EventEmitter<bool> = new EventEmitter<bool>()
+  @Output() takeSnaphotE: EventEmitter<boolean> = new EventEmitter<boolean>()
+  @Output() enableCameraE: EventEmitter<boolean> = new EventEmitter<boolean>()
 
   constructor() { }
 
