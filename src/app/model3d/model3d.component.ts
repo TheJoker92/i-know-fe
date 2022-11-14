@@ -162,8 +162,8 @@ function animate() {
 
   Model3dComponent.renderer!.render(Model3dComponent.scene, Model3dComponent.camera!);
   Model3dComponent.animatedModels[0].rotation.y += 1
-  Model3dComponent.animatedModels[0].position.x += 20000*Model3dComponent.tiltX
-  Model3dComponent.animatedModels[0].position.y += 20000*Model3dComponent.tiltY
+  Model3dComponent.animatedModels[0].position.x += 10*Model3dComponent.tiltX
+  Model3dComponent.animatedModels[0].position.y += 100*Model3dComponent.tiltY
 
 }
 
