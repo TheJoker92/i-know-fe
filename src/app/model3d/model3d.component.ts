@@ -31,7 +31,7 @@ export class Model3dComponent implements OnInit {
 
   static tiltX: number = 0
   static tiltY: number = 0
-  
+  static sensor = new Gyroscope();
 
   constructor() { }
 
@@ -74,10 +74,23 @@ export class Model3dComponent implements OnInit {
 
     if (window.DeviceOrientationEvent) {
 
-      window.addEventListener("devicemotion", function(event){
-        Model3dComponent.tiltX = event.rotationRate!.alpha!
-        Model3dComponent.tiltY = event.rotationRate!.beta! 
-    });
+
+       
+      Model3dComponent.sensor.start();
+
+      Model3dComponent.sensor.onreading = () => {
+    console.log("Angular velocity around the X-axis " + Model3dComponent.sensor.x);
+
+    Model3dComponent.animatedModels[0].position.x = Model3dComponent.sensor.x!
+    Model3dComponent.animatedModels[0].position.y = Model3dComponent.sensor.y!
+    Model3dComponent.animatedModels[0].position.z = Model3dComponent.sensor.z!
+    console.log("Angular velocity around the Y-axis " + Model3dComponent.sensor.y);
+    console.log("Angular velocity around the Z-axis " + Model3dComponent.sensor.z);
+};
+
+    Model3dComponent.sensor.onerror = event => console.log(event.error.name, event.error.message);
+
+
 
       
   }
