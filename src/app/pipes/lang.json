@@ -1,0 +1,10 @@
+{
+    "it": {
+        "ERROR": "RIPROVA",
+        "WAITING": "ATTENDERE"
+    },
+    "en": {
+        "ERROR": "RETRY",
+        "WAITING": "WAITING"
+    }
+}

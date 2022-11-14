@@ -1,0 +1,37 @@
+<div class="container-logo">
+  <i class="fa fa-eye"></i> 
+  <!-- <h3>L' occhio elettronico</h3> -->
+</div>
+
+<div class="container">
+  <div class="inputoutput">
+    <app-model3d 
+    [base64Img]="base64Img"
+    [label]="labels[terms[0]]">
+  </app-model3d>
+  </div>
+  <app-action-bar
+    [isPaused]="isPaused"
+    [label]="labels[terms[0]]"
+    (takeSnaphotE)="takeSnapshot()"
+    (enableCameraE)="enableCamera()">
+  </app-action-bar>
+
+</div>
+
+
+
+<ng-template #noCameraExist>
+  Camera device not available
+</ng-template>
+<script async src="opencv.js" type="text/javascript"></script>
+
+<div *ngIf="loadingService.isLoading" class="overlay">
+  <app-loading-modal></app-loading-modal>
+</div>
+
+<div *ngIf="loadingService.isError" class="overlay">
+  <app-error-modal></app-error-modal>
+</div>
+
+

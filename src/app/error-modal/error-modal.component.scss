@@ -1,0 +1,19 @@
+.modal-container {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    width: 30vw;
+    height: 30vh;
+    color: rgb(154, 34, 34);
+}
+
+i {
+    font-size: 5vw;
+}
+
+h2:hover {
+    cursor: pointer;
+}

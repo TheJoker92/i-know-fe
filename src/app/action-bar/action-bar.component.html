@@ -1,0 +1,7 @@
+<div *ngIf="!isPaused" class="btn-enable-group">
+    <button class="button" (click)="takeSnapshot()"><i class="fa fa-camera"></i></button>
+  </div>
+  <div *ngIf="isPaused" class="btn-enable-group flex-direction-col">
+    <button class="button" (click)="enableCamera()"><i class="fa fa-play"></i></button>
+    <app-label [label]="label"></app-label>
+  </div>
