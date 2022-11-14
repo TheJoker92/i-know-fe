@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
-import { Observable, Subject } from 'rxjs';
 import { LoadingService } from './loading.service';
 
 const BASE_URL = "https://i-know-be.herokuapp.com/" 
@@ -21,7 +19,6 @@ export class AppComponent {
 
   isCaptured = false
 
-  errors: WebcamInitError[] = [];
 
   imgElement: any
   inputElement: any
@@ -45,9 +42,6 @@ export class AppComponent {
   }
 
 
-  handleInitError(error: WebcamInitError) {
-    this.errors.push(error);
-  }
 
   takeSnapshot() {
 
