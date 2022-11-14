@@ -73,17 +73,13 @@ export class Model3dComponent implements OnInit {
     document.querySelector("app-model3d")!.appendChild(Model3dComponent.renderer.domElement);
 
     if (window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', function (eventData) {
-  
-  
-          Model3dComponent.tiltX = Math.round(eventData.gamma! * 2 );
-  
-  
-          Model3dComponent.tiltY =  Math.round(eventData.beta! * 2);
-  
-          
-  
-      }, false);
+
+      window.addEventListener("devicemotion", function(event){
+        Model3dComponent.tiltX = event.rotationRate!.alpha!
+        Model3dComponent.tiltY = event.rotationRate!.beta! 
+    });
+
+      
   }
   
 
