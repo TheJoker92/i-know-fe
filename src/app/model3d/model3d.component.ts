@@ -81,9 +81,7 @@ export class Model3dComponent implements OnInit {
       Model3dComponent.sensor.onreading = () => {
     console.log("Angular velocity around the X-axis " + Model3dComponent.sensor.x);
 
-    Model3dComponent.animatedModels[0].position.x = Model3dComponent.sensor.x!
-    Model3dComponent.animatedModels[0].position.y = Model3dComponent.sensor.y!
-    Model3dComponent.animatedModels[0].position.z = Model3dComponent.sensor.z!
+    
     console.log("Angular velocity around the Y-axis " + Model3dComponent.sensor.y);
     console.log("Angular velocity around the Z-axis " + Model3dComponent.sensor.z);
 };
@@ -175,8 +173,9 @@ function animate() {
 
   Model3dComponent.renderer!.render(Model3dComponent.scene, Model3dComponent.camera!);
   Model3dComponent.animatedModels[0].rotation.y += 1
-  Model3dComponent.animatedModels[0].position.x += 20*Model3dComponent.tiltX
-  Model3dComponent.animatedModels[0].position.y += 20*Model3dComponent.tiltY
+  Model3dComponent.animatedModels[0].position.x = Model3dComponent.sensor.x!
+    Model3dComponent.animatedModels[0].position.y = Model3dComponent.sensor.y!
+    Model3dComponent.animatedModels[0].position.z = Model3dComponent.sensor.z!
 
 }
 
