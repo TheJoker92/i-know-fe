@@ -31,9 +31,11 @@ export class Model3dComponent implements OnInit {
 
   static tiltX: number = 0
   static tiltY: number = 0
-  static sensor = new Gyroscope();
+  static sensor: any
 
-  constructor() { }
+  constructor() {
+    Model3dComponent.sensor = new Gyroscope();
+  }
 
 
   ngOnChanges(change: any) {
@@ -86,7 +88,7 @@ export class Model3dComponent implements OnInit {
     console.log("Angular velocity around the Z-axis " + Model3dComponent.sensor.z);
 };
 
-    Model3dComponent.sensor.onerror = event => console.log(event.error.name, event.error.message);
+    Model3dComponent.sensor.onerror = (event: any) => console.log(event.error.name, event.error.message);
 
 
 
