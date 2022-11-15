@@ -29,8 +29,8 @@ export class Model3dComponent implements OnInit {
 
   static animatedModels: THREE.Group[] = []
 
-
-
+  static alpha = 0
+  
   constructor() {
   }
 
@@ -158,9 +158,11 @@ function animate() {
 
   Model3dComponent.renderer!.render(Model3dComponent.scene, Model3dComponent.camera!);
   Model3dComponent.animatedModels[0].rotation.y += 1
-  // Model3dComponent.animatedModels[0].position.x = Model3dComponent.sensor.x!
-  //   Model3dComponent.animatedModels[0].position.y = Model3dComponent.sensor.y!
-  //   Model3dComponent.animatedModels[0].position.z = Model3dComponent.sensor.z!
+  Model3dComponent.animatedModels[0].position.x = Math.sin(Model3dComponent.alpha)
+  Model3dComponent.animatedModels[0].position.y =  Math.sin(Model3dComponent.alpha)
+  Model3dComponent.animatedModels[0].position.z =  Math.sin(Model3dComponent.alpha)
+
+  Model3dComponent.alpha += 1
 
 }
 
