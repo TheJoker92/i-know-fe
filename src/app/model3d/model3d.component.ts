@@ -158,9 +158,9 @@ function animate() {
 
   Model3dComponent.renderer!.render(Model3dComponent.scene, Model3dComponent.camera!);
   Model3dComponent.animatedModels[0].rotation.y += 1
-  Model3dComponent.animatedModels[0].position.x = Math.sin(Model3dComponent.alpha)
-  Model3dComponent.animatedModels[0].position.y =  Math.sin(Model3dComponent.alpha)
-  Model3dComponent.animatedModels[0].position.z =  Math.sin(Model3dComponent.alpha)
+  // Model3dComponent.animatedModels[0].position.x = Math.sin(Model3dComponent.alpha)
+  // Model3dComponent.animatedModels[0].position.y =  Math.sin(Model3dComponent.alpha)
+  // Model3dComponent.animatedModels[0].position.z =  Math.sin(Model3dComponent.alpha)
 
   Model3dComponent.alpha += 1
 
