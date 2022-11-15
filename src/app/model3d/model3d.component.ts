@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
-import { Gyroscope } from 'src/app/model3d/sensor';
 import * as THREE from 'three';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader'
@@ -30,12 +29,9 @@ export class Model3dComponent implements OnInit {
 
   static animatedModels: THREE.Group[] = []
 
-  static tiltX: number = 0
-  static tiltY: number = 0
-  static sensor: any
+
 
   constructor() {
-    Model3dComponent.sensor = new Gyroscope();
   }
 
 
@@ -76,20 +72,6 @@ export class Model3dComponent implements OnInit {
     document.querySelector("app-model3d")!.appendChild(Model3dComponent.renderer.domElement);
 
     if (window.DeviceOrientationEvent) {
-
-
-       
-      Model3dComponent.sensor.start();
-
-      Model3dComponent.sensor.onreading = () => {
-    console.log("Angular velocity around the X-axis " + Model3dComponent.sensor.x);
-
-    
-    console.log("Angular velocity around the Y-axis " + Model3dComponent.sensor.y);
-    console.log("Angular velocity around the Z-axis " + Model3dComponent.sensor.z);
-};
-
-    Model3dComponent.sensor.onerror = (event: any) => console.log(event.error.name, event.error.message);
 
 
 
@@ -176,9 +158,9 @@ function animate() {
 
   Model3dComponent.renderer!.render(Model3dComponent.scene, Model3dComponent.camera!);
   Model3dComponent.animatedModels[0].rotation.y += 1
-  Model3dComponent.animatedModels[0].position.x = Model3dComponent.sensor.x!
-    Model3dComponent.animatedModels[0].position.y = Model3dComponent.sensor.y!
-    Model3dComponent.animatedModels[0].position.z = Model3dComponent.sensor.z!
+  // Model3dComponent.animatedModels[0].position.x = Model3dComponent.sensor.x!
+  //   Model3dComponent.animatedModels[0].position.y = Model3dComponent.sensor.y!
+  //   Model3dComponent.animatedModels[0].position.z = Model3dComponent.sensor.z!
 
 }
 
