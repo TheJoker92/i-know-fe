@@ -1,9 +1,11 @@
 import { Component, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import * as THREE from 'three';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
-import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 
 import { ITerm } from '../label/label.component';
+import { Camera } from 'three';
 
 
 @Component({
@@ -25,23 +27,28 @@ export class Model3dComponent implements OnInit {
   static camera: THREE.PerspectiveCamera | null = null
   static renderer: THREE.WebGLRenderer | null = null
 
+  static mixer: any
+  static clock: any
+
   mesh: THREE.Mesh | null = null
 
   static animatedModels: THREE.Group[] = []
 
-  static alpha = 0
-  
+  static tiltX: number = 0
+  static tiltY: number = 0
+  static alpha: number = 0
+
   constructor() {
   }
 
 
   ngOnChanges(change: any) {
     for (let elem in change)
-      if (elem == "label"  && this.label) {
-        this.loadOBJ("assets/models/ufo/Low_poly_UFO")
+      if (elem == "label" && this.label) {
+        this.loadOBJ("assets/models/vase/vase")
 
         this.term = this.label["term"]
-    }
+      }
 
   }
 
@@ -53,6 +60,9 @@ export class Model3dComponent implements OnInit {
 
   init() {
 
+    Model3dComponent.clock = new THREE.Clock();
+
+
     Model3dComponent.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
     Model3dComponent.camera.position.z = 0.01;
 
@@ -63,21 +73,17 @@ export class Model3dComponent implements OnInit {
     const texture = new THREE.VideoTexture(this.video!);
     Model3dComponent.scene!.background = texture
 
-    
+
 
     Model3dComponent.camera.position.z = 20
     Model3dComponent.renderer = new THREE.WebGLRenderer({ antialias: true });
     Model3dComponent.renderer.setPixelRatio(window.devicePixelRatio);
     Model3dComponent.renderer.setSize(window.innerWidth, window.innerHeight);
+    Model3dComponent.renderer.outputEncoding = THREE.sRGBEncoding;
+
     document.querySelector("app-model3d")!.appendChild(Model3dComponent.renderer.domElement);
 
-    if (window.DeviceOrientationEvent) {
 
-
-
-      
-  }
-  
 
 
     //
@@ -106,63 +112,100 @@ export class Model3dComponent implements OnInit {
     }
   }
 
-  
 
-  loadOBJ(path:string) {
-    const mtlLoader = new MTLLoader()
-    mtlLoader.load(
-        path+'.mtl',
-        (materials) => {
-            materials.preload()
+
+  loadOBJ(path: string) {
+    // Instantiate a loader
+    const loader = new GLTFLoader();
+
+    // Optional: Provide a DRACOLoader instance to decode compressed mesh data
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('./three/examples/js/libs/draco/');
+    loader.setDRACOLoader(dracoLoader);
+
+    // Load a glTF resource
+    loader.load(
+      // resource URL
+      'assets/models/trex/scene.gltf',
+      // called when the resource is loaded
+      function (gltf) {
+
+        // const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        // Model3dComponent.scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        dirLight.position.set(10, 10, 10);
+        Model3dComponent.scene.add(dirLight);
+
+        const model = gltf;
+        const mesh = gltf.scene;
+        var animations = gltf.animations;
+
+
+        //scene.add( gltf.scene );
+        console.log(gltf.animations);
+        console.log(gltf.scenes);
+
+
+          gltf.scene.animations = gltf.animations
+          Model3dComponent.mixer = new THREE.AnimationMixer(gltf.scene)
+
+          //Playing Animation
+    Model3dComponent.mixer = new THREE.AnimationMixer( gltf.scene );
+    console.log( gltf.animations );
+
+    Model3dComponent.mixer.clipAction( gltf.animations[0] ).play();
     
-            const objLoader = new OBJLoader()
-            objLoader.setMaterials(materials)
-            objLoader.load(
-                path+'.obj',
-                (object) => {
 
-                  object.scale.x = 0.15
-                  object.scale.y = 0.15
-                  object.scale.z = 0.15
 
-                  Model3dComponent.animatedModels.push(object)
+        Model3dComponent.scene.add(mesh);
+        // action.play();
 
-                    Model3dComponent.scene.add( object );
-                  
-                     // Model3dComponent.scene.getObjectByName("mesh1")?.add( object );
-                },
-                (xhr) => {
-                    console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-                },
-                (error) => {
-                    console.log('An error happened')
-                }
-            )
-        },
-        (xhr) => {
-            console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
-        },
-        (error) => {
-            console.log('An error happened')
-        }
-    )
+        // action.play();
 
- 
+        //gltf.animations; // Array<THREE.AnimationClip>
+        //gltf.scene; // THREE.Scene
+        //gltf.scenes; // Array<THREE.Scene>
+        //gltf.cameras; // Array<THREE.Camera>
+        //gltf.asset; // Object
+
+      },
+      // called while loading is progressing
+      function (xhr) {
+
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+
+      },
+      // called when loading has errors
+      function (error) {
+
+        console.log('An error happened');
+
       }
+    );
+
+
+  }
 }
 
 
 
 function animate() {
-  requestAnimationFrame( animate );
+  requestAnimationFrame(animate);
 
   Model3dComponent.renderer!.render(Model3dComponent.scene, Model3dComponent.camera!);
-  Model3dComponent.animatedModels[0].rotation.y += 1
-  // Model3dComponent.animatedModels[0].position.x = Math.sin(Model3dComponent.alpha)
-  // Model3dComponent.animatedModels[0].position.y =  Math.sin(Model3dComponent.alpha)
-  // Model3dComponent.animatedModels[0].position.z =  Math.sin(Model3dComponent.alpha)
+  if (Model3dComponent.animatedModels.length) {
+    Model3dComponent.animatedModels[0].rotation.y = 180
 
-  Model3dComponent.alpha += 1
+    
+  }
+  // Model3dComponent.animatedModels[0].rotation.z += 0.000001
+  if ( Model3dComponent.mixer ) Model3dComponent.mixer.update( Model3dComponent.clock.getDelta() );
+  // Model3dComponent.animatedModels[0].position.x += 0.05*Math.sin(Model3dComponent.alpha)
+  //   Model3dComponent.animatedModels[0].position.y += 0.05*Math.cos(Model3dComponent.alpha)
+  //   Model3dComponent.animatedModels[0].position.z += 0.05*Math.sin(Model3dComponent.alpha)
+
+
 
 }
 
