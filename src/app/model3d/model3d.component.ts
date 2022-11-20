@@ -186,7 +186,7 @@ export class Model3dComponent implements OnInit {
       // called when loading has errors
       function (error) {
 
-        console.log('An error happened');
+        console.log(error);
 
       }
     );
