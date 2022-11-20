@@ -163,8 +163,8 @@ export class Model3dComponent implements OnInit {
 
         Model3dComponent.mixer.clipAction(gltf.animations[0]).play();
 
-        mesh.position.x = that.label!.position[0]
-        mesh.position.y = that.label!.position[1]
+        //mesh.position.x = that.label!.position[0]
+        //mesh.position.y = that.label!.position[1]
 
 
         Model3dComponent.scene.add(mesh);
