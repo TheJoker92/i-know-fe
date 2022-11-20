@@ -7,6 +7,7 @@ const app = express();
 
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + '/dist/i-know-fe'));
+app.use(express.static(__dirname + '/asset'));
 
 app.get('/*', function(req,res) {
     
