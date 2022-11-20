@@ -34,7 +34,7 @@ export class Model3dComponent implements OnInit {
   static animatedModels: THREE.Group[] = []
 
   modelsJSON: any
-  
+
   constructor() {
   }
 
@@ -116,7 +116,7 @@ export class Model3dComponent implements OnInit {
 
   loadOBJ(isUfo?: string) {
 
-    let path = "" 
+    let path = ""
     debugger
     if (isUfo) {
       path = "assets/models/trex/"
@@ -131,6 +131,7 @@ export class Model3dComponent implements OnInit {
     dracoLoader.setDecoderPath('./three/examples/js/libs/draco/');
     loader.setDRACOLoader(dracoLoader);
 
+    let that = this
     // Load a glTF resource
     loader.load(
       // resource URL
@@ -145,9 +146,7 @@ export class Model3dComponent implements OnInit {
         dirLight.position.set(10, 10, 10);
         Model3dComponent.scene.add(dirLight);
 
-        const model = gltf;
         const mesh = gltf.scene;
-        var animations = gltf.animations;
 
 
         //scene.add( gltf.scene );
@@ -155,15 +154,17 @@ export class Model3dComponent implements OnInit {
         console.log(gltf.scenes);
 
 
-          gltf.scene.animations = gltf.animations
-          Model3dComponent.mixer = new THREE.AnimationMixer(gltf.scene)
+        gltf.scene.animations = gltf.animations
+        Model3dComponent.mixer = new THREE.AnimationMixer(gltf.scene)
 
-          //Playing Animation
-    Model3dComponent.mixer = new THREE.AnimationMixer( gltf.scene );
-    console.log( gltf.animations );
+        //Playing Animation
+        Model3dComponent.mixer = new THREE.AnimationMixer(gltf.scene);
+        console.log(gltf.animations);
 
-    Model3dComponent.mixer.clipAction( gltf.animations[0] ).play();
-    
+        Model3dComponent.mixer.clipAction(gltf.animations[0]).play();
+
+        mesh.position.x = that.label!.position[0]
+        mesh.position.y = that.label!.position[1]
 
 
         Model3dComponent.scene.add(mesh);
@@ -204,10 +205,10 @@ function animate() {
   if (Model3dComponent.animatedModels.length) {
     Model3dComponent.animatedModels[0].rotation.y = 180
 
-    
+
   }
   // Model3dComponent.animatedModels[0].rotation.z += 0.000001
-  if ( Model3dComponent.mixer ) Model3dComponent.mixer.update( Model3dComponent.clock.getDelta() );
+  if (Model3dComponent.mixer) Model3dComponent.mixer.update(Model3dComponent.clock.getDelta());
   // Model3dComponent.animatedModels[0].position.x += 0.05*Math.sin(Model3dComponent.alpha)
   //   Model3dComponent.animatedModels[0].position.y += 0.05*Math.cos(Model3dComponent.alpha)
   //   Model3dComponent.animatedModels[0].position.z += 0.05*Math.sin(Model3dComponent.alpha)
