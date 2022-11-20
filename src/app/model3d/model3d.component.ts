@@ -114,6 +114,10 @@ export class Model3dComponent implements OnInit {
     }
   }
 
+  downloadModel(term: string) {
+
+  }
+
 
 
   loadOBJ(path: string) {
@@ -185,11 +189,8 @@ export class Model3dComponent implements OnInit {
 
       }
     );
-  }
+}
 
-  downloadModel(name: string) {
-    
-  }
 }
 
 
