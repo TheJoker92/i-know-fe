@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import * as THREE from 'three';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 
 import { ITerm } from '../label/label.component';
-import { Camera } from 'three';
+
+import * as models from './models.json'
+
 
 
 @Component({
@@ -34,9 +35,7 @@ export class Model3dComponent implements OnInit {
 
   static animatedModels: THREE.Group[] = []
 
-  static tiltX: number = 0
-  static tiltY: number = 0
-  static alpha: number = 0
+  modelsJSON: any
 
   constructor() {
   }
@@ -45,6 +44,7 @@ export class Model3dComponent implements OnInit {
   ngOnChanges(change: any) {
     for (let elem in change)
       if (elem == "label" && this.label) {
+        this.downloadModel(this.label.term)
         this.loadOBJ("assets/models/vase/vase")
 
         this.term = this.label["term"]
@@ -59,6 +59,8 @@ export class Model3dComponent implements OnInit {
 
 
   init() {
+
+    this.modelsJSON = models
 
     Model3dComponent.clock = new THREE.Clock();
 
@@ -183,8 +185,10 @@ export class Model3dComponent implements OnInit {
 
       }
     );
+  }
 
-
+  downloadModel(name: string) {
+    
   }
 }
 
