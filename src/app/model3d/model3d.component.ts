@@ -117,6 +117,7 @@ export class Model3dComponent implements OnInit {
   loadOBJ(isUfo?: string) {
 
     let path = "" 
+    debugger
     if (isUfo) {
       path = "assets/models/trex/"
     } else {
