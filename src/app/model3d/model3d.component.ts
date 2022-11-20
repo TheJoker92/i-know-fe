@@ -161,7 +161,7 @@ export class Model3dComponent implements OnInit {
         Model3dComponent.mixer = new THREE.AnimationMixer(gltf.scene);
         console.log(gltf.animations);
 
-        Model3dComponent.mixer.clipAction(gltf.animations[0]).play();
+        if (gltf.animations && gltf.animations.length) Model3dComponent.mixer.clipAction(gltf.animations[0]).play();
 
         //mesh.position.x = that.label!.position[0]
         //mesh.position.y = that.label!.position[1]
