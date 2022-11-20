@@ -7,8 +7,6 @@ import { ITerm } from '../label/label.component';
 
 import * as models from './models.json'
 
-
-
 @Component({
   selector: 'app-model3d',
   templateUrl: './model3d.component.html',
@@ -36,7 +34,7 @@ export class Model3dComponent implements OnInit {
   static animatedModels: THREE.Group[] = []
 
   modelsJSON: any
-
+  
   constructor() {
   }
 
@@ -44,10 +42,11 @@ export class Model3dComponent implements OnInit {
   ngOnChanges(change: any) {
     for (let elem in change)
       if (elem == "label" && this.label) {
-        this.downloadModel(this.label.term)
-        this.loadOBJ("assets/models/vase/vase")
+        this.loadOBJ()
 
         this.term = this.label["term"]
+      } else if (this.label) {
+        this.loadOBJ("none")
       }
 
   }
@@ -55,6 +54,7 @@ export class Model3dComponent implements OnInit {
   ngOnInit(): void {
     this.init();
     animate();
+
   }
 
 
@@ -114,14 +114,15 @@ export class Model3dComponent implements OnInit {
     }
   }
 
-  downloadModel(term: string) {
+  loadOBJ(isUfo?: string) {
 
-  }
+    let path = "" 
+    if (isUfo) {
+      path = "assets/models/trex/"
+    } else {
+      path = this.modelsJSON[this.label!.term]
+    }
 
-
-
-  loadOBJ(path: string) {
-    // Instantiate a loader
     const loader = new GLTFLoader();
 
     // Optional: Provide a DRACOLoader instance to decode compressed mesh data
@@ -132,7 +133,7 @@ export class Model3dComponent implements OnInit {
     // Load a glTF resource
     loader.load(
       // resource URL
-      'assets/models/trex/scene.gltf',
+      path + 'scene.gltf',
       // called when the resource is loaded
       function (gltf) {
 
@@ -189,7 +190,7 @@ export class Model3dComponent implements OnInit {
 
       }
     );
-}
+  }
 
 }
 
@@ -213,4 +214,6 @@ function animate() {
 
 
 }
+
+
 
