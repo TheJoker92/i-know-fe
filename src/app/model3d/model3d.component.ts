@@ -92,7 +92,7 @@ export class Model3dComponent implements OnInit {
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 
-      const constraints = { video: { width: 1280, height: 720, facingMode: 'user' } };
+      const constraints = { video: { width: 1280, height: 720, facingMode: 'environment'  } };
 
       navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
 
@@ -107,11 +107,15 @@ export class Model3dComponent implements OnInit {
 
       });
 
+      
+
     } else {
 
       console.error('MediaDevices interface not available.');
 
     }
+
+    
   }
 
   loadOBJ(isUfo?: string) {
