@@ -121,7 +121,7 @@ export class Model3dComponent implements OnInit {
     if (isUfo) {
       path = "assets/models/trex/"
     } else {
-      path = this.modelsJSON[this.label!.term]
+      path = this.modelsJSON[this.label!.term].toString()
     }
 
     const loader = new GLTFLoader();
@@ -163,8 +163,8 @@ export class Model3dComponent implements OnInit {
 
         if (gltf.animations && gltf.animations.length) Model3dComponent.mixer.clipAction(gltf.animations[0]).play();
 
-        //mesh.position.x = that.label!.position[0]
-        //mesh.position.y = that.label!.position[1]
+        mesh.position.x = that.label!.position[0]/100
+        mesh.position.y = that.label!.position[1]/100
 
 
         Model3dComponent.scene.add(mesh);
