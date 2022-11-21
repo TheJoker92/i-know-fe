@@ -1,0 +1,11 @@
+Model Information:
+* title:	Irex SketchFab
+* source:	https://sketchfab.com/3d-models/irex-sketchfab-368d97db2ebb49ebb19afc2b827740d9
+* author:	RatInsurance (https://sketchfab.com/RatInsurance)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Irex SketchFab" (https://sketchfab.com/3d-models/irex-sketchfab-368d97db2ebb49ebb19afc2b827740d9) by RatInsurance (https://sketchfab.com/RatInsurance) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
