@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { LoadingService } from './loading.service';
 
-const BASE_URL = "https://i-know-be.herokuapp.com/" 
-// const BASE_URL = "http://localhost:9002/"
+// const BASE_URL = "https://i-know-be.herokuapp.com/" 
+const BASE_URL = "http://localhost:9002/"
 
 
 @Component({

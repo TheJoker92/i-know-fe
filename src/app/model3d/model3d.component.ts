@@ -6,6 +6,7 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
 import { ITerm } from '../label/label.component';
 
 import * as models from './models.json'
+import { Movement } from './movement';
 
 @Component({
   selector: 'app-model3d',
@@ -32,6 +33,9 @@ export class Model3dComponent implements OnInit {
   mesh: THREE.Mesh | null = null
 
   static animatedModels: THREE.Group[] = []
+
+  static partOfBody: any = []
+  static body: any = []
 
   modelsJSON: any
 
@@ -123,7 +127,7 @@ export class Model3dComponent implements OnInit {
     let path = ""
     debugger
     if (isUfo) {
-      path = "assets/models/trex/"
+      path = "assets/models/human/"
     } else {
       path = this.modelsJSON[this.label!.term].toString()
     }
@@ -172,6 +176,10 @@ export class Model3dComponent implements OnInit {
 
 
         Model3dComponent.scene.add(mesh);
+
+        Model3dComponent.animatedModels.push(mesh)
+
+        Model3dComponent.body = mesh
         // action.play();
 
         // action.play();
@@ -181,6 +189,9 @@ export class Model3dComponent implements OnInit {
         //gltf.scenes; // Array<THREE.Scene>
         //gltf.cameras; // Array<THREE.Camera>
         //gltf.asset; // Object
+
+        Model3dComponent.partOfBody = Model3dComponent.animatedModels[0].children[0].children[0].children[0].children[0]
+
 
       },
       // called while loading is progressing
@@ -207,8 +218,10 @@ function animate() {
 
   Model3dComponent.renderer!.render(Model3dComponent.scene, Model3dComponent.camera!);
   if (Model3dComponent.animatedModels.length) {
-    Model3dComponent.animatedModels[0].rotation.y = 180
+    //Model3dComponent.animatedModels[0].rotation.y += 0.01
 
+    new Movement().moveBraceUpperDx()
+  
 
   }
   // Model3dComponent.animatedModels[0].rotation.z += 0.000001
