@@ -220,7 +220,8 @@ function animate() {
   if (Model3dComponent.animatedModels.length) {
     //Model3dComponent.animatedModels[0].rotation.y += 0.01
 
-    new Movement().moveBraceUpperDx()
+    //new Movement().moveBraceUpperDx(0.01, -1)
+    new Movement().moveBraceDownDx(0.01, -1)
   
 
   }

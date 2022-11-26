@@ -23,22 +23,41 @@ export class Movement {
         
     }
 
-    moveBraceUpperDx() {
-        
-        this.brace_upper_dx.model.rotation.x -= 0.01
+    moveBraceUpperDx(velocity: number, spin:number = -1, maxRoration: number = 2*Math.PI) {
+        if (this.brace_upper_dx.model.rotation.x <= maxRoration && this.brace_upper_dx.model.rotation.x >= -maxRoration) {
 
-        let angleBruceUpperDx = this.brace_upper_dx.model.rotation.x
+            this.brace_upper_dx.model.rotation.x = this.brace_upper_dx.model.rotation.x + spin*velocity
+    
+            let angleBraceUpperDx = this.brace_upper_dx.model.rotation.x
+    
+            this.brace_down_dx.model.rotation.x = this.brace_down_dx.model.rotation.x + spin*velocity
+            
+            this.hand_dx.model.rotation.x = this.hand_dx.model.rotation.x + spin*velocity
+            
+            
+            this.brace_down_dx.model.position.y = 2*Math.sin(angleBraceUpperDx) + this.brace_upper_dx.model.position.y
+            this.brace_down_dx.model.position.z = -2.65*Math.cos(angleBraceUpperDx) + this.brace_upper_dx.model.position.z
+    
+            this.hand_dx.model.position.y = 2*Math.sin(angleBraceUpperDx) + this.brace_down_dx.model.position.y
+            this.hand_dx.model.position.z = -2*Math.cos(angleBraceUpperDx) + this.brace_down_dx.model.position.z
+        }
+    }
 
-        this.brace_down_dx.model.rotation.x -= 0.01
-        
-        this.hand_dx.model.rotation.x -= 0.01
-        
-        
-        this.brace_down_dx.model.position.y = 2*Math.sin(angleBruceUpperDx) + this.brace_upper_dx.model.position.y
-        this.brace_down_dx.model.position.z = -2.65*Math.cos(angleBruceUpperDx) + this.brace_upper_dx.model.position.z
+    moveBraceDownDx(velocity: number, spin:number = -1, maxRotation: number =  Math.PI - 0.14) {
 
-        this.hand_dx.model.position.y = 2*Math.sin(angleBruceUpperDx) + this.brace_down_dx.model.position.y
-        this.hand_dx.model.position.z = -2*Math.cos(angleBruceUpperDx) + this.brace_down_dx.model.position.z
+        let diffAngleBdBu = this.brace_down_dx.model.rotation.x - this.brace_upper_dx.model.rotation.x
+
+        
+            this.brace_down_dx.model.rotation.x = this.brace_down_dx.model.rotation.x + spin*velocity
+    
+            let angleBraceDownDx = this.brace_down_dx.model.rotation.x
+            
+            this.hand_dx.model.rotation.x = this.hand_dx.model.rotation.x + spin*velocity
+            
+    
+            this.hand_dx.model.position.y = 2*Math.sin(angleBraceDownDx) + this.brace_down_dx.model.position.y
+            this.hand_dx.model.position.z = -2*Math.cos(angleBraceDownDx) + this.brace_down_dx.model.position.z
+        
     }
 
     getSize(elem1: any, elem2: any) {
