@@ -27,11 +27,8 @@ export class Movement {
         
         this.brace_upper_dx.model.rotation.x -= 0.01
 
-        let armSize = this.getSize(this.brace_upper_dx.model.position, this.brace_down_dx.model.position)
         let angleBruceUpperDx = this.brace_upper_dx.model.rotation.x
 
-        
-        
         this.brace_down_dx.model.rotation.x -= 0.01
         
         this.hand_dx.model.rotation.x -= 0.01
