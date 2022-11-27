@@ -37,6 +37,8 @@ export class Model3dComponent implements OnInit {
   static partOfBody: any = []
   static body: any = []
 
+  static movement: Movement 
+
   modelsJSON: any
 
   constructor() {
@@ -156,12 +158,6 @@ export class Model3dComponent implements OnInit {
 
         const mesh = gltf.scene;
 
-
-        //scene.add( gltf.scene );
-        console.log(gltf.animations);
-        console.log(gltf.scenes);
-
-
         gltf.scene.animations = gltf.animations
         Model3dComponent.mixer = new THREE.AnimationMixer(gltf.scene)
 
@@ -180,17 +176,10 @@ export class Model3dComponent implements OnInit {
         Model3dComponent.animatedModels.push(mesh)
 
         Model3dComponent.body = mesh
-        // action.play();
-
-        // action.play();
-
-        //gltf.animations; // Array<THREE.AnimationClip>
-        //gltf.scene; // THREE.Scene
-        //gltf.scenes; // Array<THREE.Scene>
-        //gltf.cameras; // Array<THREE.Camera>
-        //gltf.asset; // Object
-
+        
         Model3dComponent.partOfBody = Model3dComponent.animatedModels[0].children[0].children[0].children[0].children[0]
+
+        Model3dComponent.movement = new Movement()
 
 
       },
@@ -220,8 +209,11 @@ function animate() {
   if (Model3dComponent.animatedModels.length) {
     //Model3dComponent.animatedModels[0].rotation.y += 0.01
 
-    //new Movement().moveBraceUpperDx(0.01, -1)
-    new Movement().moveBraceDownDx(0.01, -1)
+    // Model3dComponent.movement.moveBraceUpperSx(0.01, -1)
+    // Model3dComponent.movement.moveBraceDownSx(0.01, -1)
+    // Model3dComponent.movement.moveHandSx(0.01, -1)
+    Model3dComponent.movement.moveHead(0.01, -1)
+      
   
 
   }
