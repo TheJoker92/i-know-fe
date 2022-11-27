@@ -212,7 +212,7 @@ function animate() {
     // Model3dComponent.movement.moveBraceUpperSx(0.01, -1)
     // Model3dComponent.movement.moveBraceDownSx(0.01, -1)
     // Model3dComponent.movement.moveHandSx(0.01, -1)
-    Model3dComponent.movement.moveHead(0.01, -1)
+    Model3dComponent.movement.moveKneeSxUpper(0.01, -1)
       
   
 

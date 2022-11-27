@@ -135,6 +135,43 @@ export class Movement {
 
     }
 
+    moveKneeDxUpper(velocity: number, spin:number = -1, maxRotation: number = Math.PI/2) {
+        if (this.leg_upper_dx.model.rotation.x <= maxRotation && this.leg_upper_dx.model.rotation.x >= -maxRotation) {
+
+            this.leg_upper_dx.model.rotation.x = this.leg_upper_dx.model.rotation.x + spin*velocity
+    
+            let angleLegUpperDx = this.leg_upper_dx.model.rotation.x
+    
+
+            
+            
+            this.leg_down_dx.model.position.y = 3*Math.sin(angleLegUpperDx) + this.leg_upper_dx.model.position.y
+            this.leg_down_dx.model.position.z = -3*Math.cos(angleLegUpperDx) + this.leg_upper_dx.model.position.z
+    
+            this.foot_dx.model.position.y = 3.2 + this.leg_down_dx.model.position.y
+            this.foot_dx.model.position.z = -4.5 + this.leg_down_dx.model.position.z
+        }
+    }
+
+    moveKneeSxUpper(velocity: number, spin:number = -1, maxRotation: number = Math.PI/2) {
+        if (this.leg_upper_sx.model.rotation.x <= maxRotation && this.leg_upper_sx.model.rotation.x >= -maxRotation) {
+
+            this.leg_upper_sx.model.rotation.x = this.leg_upper_sx.model.rotation.x + spin*velocity
+    
+            let angleLegUpperSx = this.leg_upper_sx.model.rotation.x
+    
+
+            
+            
+            this.leg_down_sx.model.position.y = 3*Math.sin(angleLegUpperSx) + this.leg_upper_sx.model.position.y
+            this.leg_down_sx.model.position.z = -3*Math.cos(angleLegUpperSx) + this.leg_upper_sx.model.position.z
+    
+            this.foot_sx.model.position.x = 0.25 + this.leg_down_sx.model.position.x
+            this.foot_sx.model.position.y = 5 + this.leg_down_sx.model.position.y
+            this.foot_sx.model.position.z = -4.35 + this.leg_down_sx.model.position.z
+        }
+    }
+
     getSize(elem1: any, elem2: any) {
         // return Math.sqrt(Math.pow(elem1.position.x - elem2.position.x,2) + Math.pow(elem1.position.y - elem2.position.y,2) + Math.pow(elem1.position.z - elem2.position.z,2))
 
