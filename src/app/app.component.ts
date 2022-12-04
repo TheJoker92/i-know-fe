@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { LoadingService } from './loading.service';
 
 // const BASE_URL = "https://i-know-be.herokuapp.com/" 
-const BASE_URL = "http://localhost:9002/"
+const BASE_URL = "http://localhost:3000/"
 
 
 @Component({
@@ -36,6 +36,17 @@ export class AppComponent {
     
   }
 
+  ngAfterViewInit() {
+    fetch(BASE_URL + 'sendCommand', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: null,
+    }).then((res: any) => {
+      console.log(res)
+    })
+  }
   
   onOffWebCame() {
     this.isPaused = !this.isPaused;
@@ -70,7 +81,7 @@ export class AppComponent {
         this.isPaused = true;
     
         this.loadingService.isLoading = true
-        fetch(BASE_URL + 'getDefinition', {
+        fetch('http://localhost:9002/getDefinition', {
           method: 'POST', // or 'PUT'
           headers: {
             'Content-Type': 'application/json',
