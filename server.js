@@ -32,7 +32,7 @@ app.post('/sendCommand', ()=> {
     exec('echo hello',
     function(error, stdout, stderr){
 
-        const pythonProcess = spawn('python3.9',["-u", "../i-know-be/main.py"]);
+        const pythonProcess = spawn('python',["-u", "../i-know-be/main.py"]);
         pythonProcess.stdout.on('data', (data) => {
             console.log(data.toString());
         });
