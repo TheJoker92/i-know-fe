@@ -6,6 +6,31 @@ const path = require('path');
 const { exec } = require('child_process');
 
 const spawn = require("child_process").spawn;
+const app = express();
+
+const http = require('http').Server(app);
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "http://localhost:8100",
+        methods: ["GET", "POST"],
+        transports: ['websocket', 'polling'],
+        credentials: true
+    },
+    allowEIO3: true
+})
+
+users = {}
+
+io.on('connection', (socket) => {
+    var address = socket.handshake.address;
+
+    users[address] = socket
+
+    console.log(Object.keys(users))
+    users[address].on('sendCommand', function (socket) {
+    
+    })
+  });
 
 
 // require("child_process").spawn('python', ['../i-know-be/main.py'], {
@@ -15,7 +40,6 @@ const spawn = require("child_process").spawn;
 //   })
 
 
-const app = express();
 
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + '/dist/i-know-fe'));
@@ -26,16 +50,20 @@ app.get('/*', function(req,res) {
 res.sendFile(path.join(__dirname+'/dist/i-know-fe/index.html'));
 });
 
-
-
-app.post('/sendCommand', ()=> {
+  
+    
+app.post('/sendCommand', (req,res)=> {
+    console.log("AAA")
     exec('echo hello',
     function(error, stdout, stderr){
 
-        const pythonProcess = spawn('python',["-u", "../i-know-be/main.py"]);
+        var pythonProcess = spawn('python3',["-u", "../i-know-be/main.py"]);
         pythonProcess.stdout.on('data', (data) => {
-            console.log(data.toString());
-        });
+            // var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
+
+            users['::1'].emit("sendCommand", data.toString())
+                })
+        
 
         pythonProcess.stderr.on('data', (data) => {
             console.log(data.toString());
@@ -53,8 +81,11 @@ app.post('/sendCommand', ()=> {
         if (stderr) {
             console.log("/sendCommand - STDERR ", stderr)
         }
-    })
+    });
 })
 
+
 // Start the app by listening on the default Heroku port
-app.listen(3000);
+http.listen(3000, () => {
+    console.log('listening on *:3000');
+  });

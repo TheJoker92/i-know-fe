@@ -9,6 +9,10 @@ import { ErrorModalComponent } from './error-modal/error-modal.component';
 import { LangPipe } from './pipes/lang.pipe';
 import { ActionBarComponent } from './action-bar/action-bar.component';
 import { Model3dComponent } from './model3d/model3d.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+
 
 @NgModule({
   declarations: [
@@ -27,7 +31,8 @@ import { Model3dComponent } from './model3d/model3d.component';
       volume: 1.0,
       pitch: 1.0,
       rate: 1.0,
-    })
+    }),
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     LoadingService

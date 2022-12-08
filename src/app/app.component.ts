@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
 import { LoadingService } from './loading.service';
 
 // const BASE_URL = "https://i-know-be.herokuapp.com/" 
@@ -12,6 +13,8 @@ const BASE_URL = "http://localhost:3000/"
 })
 
 export class AppComponent {
+
+  commands: any
   base64Img: string = "";
 
   isPaused = false;
@@ -30,22 +33,35 @@ export class AppComponent {
 
   terms: string[] = ["no-obj"]
 
-  constructor(public loadingService: LoadingService) {}
+  constructor(public loadingService: LoadingService,
+              private socket: Socket) {
+
+                socket.on('sendCommand', function (data:any) {
+                  console.log(data);
+                });
+    this.commands = this.socket.fromEvent('sendCommand').subscribe(
+      {
+        next: (command: any) => {
+          console.log("RECEIVED COMMAND", command)
+        }
+      }
+    )
+  }
  
   ngOnInit() {
     
   }
 
   ngAfterViewInit() {
+    console.log("aaa")
     fetch(BASE_URL + 'sendCommand', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
       },
       body: null,
-    }).then((res: any) => {
-      console.log(res)
-    })
+    }).then((response) => console.log(response.body))
+    //.then((data) => {  console.log(JSON.stringify(data)) })
   }
   
   onOffWebCame() {
@@ -81,25 +97,25 @@ export class AppComponent {
         this.isPaused = true;
     
         this.loadingService.isLoading = true
-        fetch('http://localhost:9002/getDefinition', {
-          method: 'POST', // or 'PUT'
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
-        .then((response) => response.json())
-        .then((data) => {  
+      //   fetch('http://localhost:9002/getDefinition', {
+      //     method: 'POST', // or 'PUT'
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify(data),
+      //   })
+      //   .then((response) => response.json())
+      //   .then((data) => {  
     
-          this.labels = JSON.parse(JSON.stringify(data["response"]))
-          this.terms = Object.keys(this.labels)
+      //     this.labels = JSON.parse(JSON.stringify(data["response"]))
+      //     this.terms = Object.keys(this.labels)
     
-          this.loadingService.isLoading = false
-        })
-        .catch(() => {
-          this.loadingService.isLoading = false
-          this.loadingService.isError = true
-        })
+      //     this.loadingService.isLoading = false
+      //   })
+      //   .catch(() => {
+      //     this.loadingService.isLoading = false
+      //     this.loadingService.isError = true
+      //   })
       }
     )
     
