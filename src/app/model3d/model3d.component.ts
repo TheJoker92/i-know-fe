@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader'
@@ -16,6 +16,7 @@ import { Movement } from './movement';
 export class Model3dComponent implements OnInit {
 
   @Input() base64Img: string = ""
+  @Input() command: any
 
   @Input() label: ITerm | undefined
   term: string = ""
@@ -38,6 +39,8 @@ export class Model3dComponent implements OnInit {
   static body: any = []
 
   static movement: Movement 
+  static spin: number = 1
+  static numMovement: number = 0
 
   modelsJSON: any
 
@@ -46,19 +49,26 @@ export class Model3dComponent implements OnInit {
 
 
   ngOnChanges(change: any) {
-    for (let elem in change)
-      if (elem == "label" && this.label) {
-        this.loadOBJ()
-
-        this.term = this.label["term"]
-      } else if (this.label) {
-        this.loadOBJ("none")
+    console.log("ngOnchanges")
+    for (let elem in change){
+      if (elem == "command" && this.command) {
+        this.setSpin()
+        this.setNumMovement()
       }
+      // if (elem == "label" && this.label) {
+      //   this.loadOBJ()
 
+      //   this.term = this.label["term"]
+      // } else if (this.label) {
+      //   this.loadOBJ("none")
+      // }
+
+    } 
   }
 
   ngOnInit(): void {
     this.init();
+    this.loadOBJ()
     animate();
 
   }
@@ -124,11 +134,24 @@ export class Model3dComponent implements OnInit {
     
   }
 
+  setSpin() {
+    if (this.command.label == 'Left') {
+      Model3dComponent.spin = 1
+    } else {
+      Model3dComponent.spin = -1
+    }
+  }
+
+  setNumMovement() {
+    Model3dComponent.numMovement = this.command['num_detected']
+    console.log("setNumMovement", Model3dComponent.numMovement, this.command['num_detected'] )
+  }
+
   loadOBJ(isUfo?: string) {
 
     let path = ""
     debugger
-    if (isUfo) {
+    if (!isUfo) {
       path = "assets/models/human/"
     } else {
       path = this.modelsJSON[this.label!.term].toString()
@@ -167,8 +190,8 @@ export class Model3dComponent implements OnInit {
 
         if (gltf.animations && gltf.animations.length) Model3dComponent.mixer.clipAction(gltf.animations[0]).play();
 
-        mesh.position.x = that.label!.position[0]/100
-        mesh.position.y = that.label!.position[1]/100
+        // mesh.position.x = that.label!.position[0]/100
+        // mesh.position.y = that.label!.position[1]/100
 
 
         Model3dComponent.scene.add(mesh);
@@ -176,6 +199,7 @@ export class Model3dComponent implements OnInit {
         Model3dComponent.animatedModels.push(mesh)
 
         Model3dComponent.body = mesh
+        
         
         Model3dComponent.partOfBody = Model3dComponent.animatedModels[0].children[0].children[0].children[0].children[0]
 
@@ -207,14 +231,16 @@ function animate() {
 
   Model3dComponent.renderer!.render(Model3dComponent.scene, Model3dComponent.camera!);
   if (Model3dComponent.animatedModels.length) {
+    
     //Model3dComponent.animatedModels[0].rotation.y += 0.01
 
-    // Model3dComponent.movement.moveBraceUpperSx(0.01, -1)
-    // Model3dComponent.movement.moveBraceDownSx(0.01, -1)
-    // Model3dComponent.movement.moveHandSx(0.01, -1)
-    Model3dComponent.movement.moveKneeSxUpper(0.01, -1)
+    if (Model3dComponent.numMovement == 1) Model3dComponent.movement.moveBraceUpperSx(0.01, Model3dComponent.spin)
+    if (Model3dComponent.numMovement == 2) Model3dComponent.movement.moveBraceDownSx(0.01, Model3dComponent.spin)
+    if (Model3dComponent.numMovement == 3) Model3dComponent.movement.moveHandSx(0.01, Model3dComponent.spin)
+    if (Model3dComponent.numMovement == 4) Model3dComponent.movement.moveKneeSxUpper(0.01, Model3dComponent.spin)
       
   
+    console.log("num", Model3dComponent.numMovement)
 
   }
   // Model3dComponent.animatedModels[0].rotation.z += 0.000001

@@ -11,7 +11,7 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http, {
     cors: {
-        origin: "http://localhost:8100",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         credentials: true
@@ -27,9 +27,7 @@ io.on('connection', (socket) => {
     users[address] = socket
 
     console.log(Object.keys(users))
-    users[address].on('sendCommand', function (socket) {
-    
-    })
+   
   });
 
 
@@ -61,7 +59,7 @@ app.post('/sendCommand', (req,res)=> {
         pythonProcess.stdout.on('data', (data) => {
             // var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
 
-            users['::1'].emit("sendCommand", data.toString())
+            users['::1'].emit("sendCommand", JSON.parse(data.toString()))
                 })
         
 

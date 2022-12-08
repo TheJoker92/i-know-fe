@@ -14,6 +14,7 @@ const BASE_URL = "http://localhost:3000/"
 
 export class AppComponent {
 
+  command: any
   commands: any
   base64Img: string = "";
 
@@ -35,17 +36,16 @@ export class AppComponent {
 
   constructor(public loadingService: LoadingService,
               private socket: Socket) {
+                
 
-                socket.on('sendCommand', function (data:any) {
-                  console.log(data);
+                socket.on('sendCommand',  (data:any) => {
+                  console.log("socket emit")
+                  if (data) {
+                    this.command = JSON.parse(JSON.stringify(data))
+                    console.log("SOCKET", this.command);
+                  }
                 });
-    this.commands = this.socket.fromEvent('sendCommand').subscribe(
-      {
-        next: (command: any) => {
-          console.log("RECEIVED COMMAND", command)
-        }
-      }
-    )
+    
   }
  
   ngOnInit() {
@@ -60,7 +60,9 @@ export class AppComponent {
         'Content-Type': 'application/json',
       },
       body: null,
-    }).then((response) => console.log(response.body))
+    }).then((response) => {
+      console.log("res",response.body)
+    })
     //.then((data) => {  console.log(JSON.stringify(data)) })
   }
   
